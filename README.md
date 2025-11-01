@@ -3,7 +3,7 @@
 -   Clone repository ini
 
 ```bash
-$ git clone https://github.com/mrizkimaulidan/inven-bs.git
+$ git clone https://github.com/maarrdamarr/inventaris.git
 ```
 
 -   Install seluruh packages yang dibutuhkan
@@ -14,12 +14,12 @@ $ composer install
 
 -   Siapkan database dan atur file .env sesuai dengan konfigurasi Anda
 
--   Masukan nama sekolah pada konfigurasi .env untuk menampilkan nama sekolah pada print barang. Berikan tanda kutip jika nama sekolah mengandung spasi
+-   Masukan nama sekolah pada konfigurasi .env 
 
 Contoh:
 
 ```
-NAMA_SEKOLAH="SD Negeri 001 Ciledug"
+NAMA_SEKOLAH="Nama dari kamu"
 ```
 
 -   Jika sudah, migrate seluruh migrasi dan seeding data
@@ -50,6 +50,6 @@ Email       : stafftu@mail.com
 Password    : secret
 ```
 
-### Dibuat dengan
+### dengan
 
 -   [Laravel](https://laravel.com) - Web Framework

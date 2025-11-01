@@ -35,6 +35,36 @@
 					</ul>
 				</form>
 					<ul class="navbar-nav navbar-right">
+						<li class="dropdown dropdown-list-toggle">
+							<a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg">
+								<i class="far fa-bell"></i>
+								@php $__unread = auth()->user()->unreadNotifications()->count(); @endphp
+								@if($__unread > 0)
+									<span class="badge badge-danger navbar-badge">{{ min($__unread, 99) }}</span>
+								@endif
+							</a>
+							<div class="dropdown-menu dropdown-list dropdown-menu-right">
+								<div class="dropdown-header">Notifikasi
+									<form action="{{ route('notifications.readAll') }}" method="POST" class="float-right ml-2">
+										@csrf
+										<button class="btn btn-sm btn-link">Tandai semua dibaca</button>
+									</form>
+								</div>
+								<div class="dropdown-list-content dropdown-list-icons">
+									@foreach(auth()->user()->notifications()->latest()->take(5)->get() as $n)
+										<a href="{{ route('notifications.open', $n->id) }}" class="dropdown-item {{ is_null($n->read_at) ? 'dropdown-item-unread' : '' }}">
+											<div class="dropdown-item-icon bg-primary text-white">
+												<i class="fas fa-triangle-exclamation"></i>
+											</div>
+											<div class="dropdown-item-desc">
+												<strong>{{ data_get($n->data,'title','Laporan Kerusakan Baru') }}</strong>
+												<div class="time">Oleh {{ data_get($n->data,'reporter','Pengguna') }} • {{ $n->created_at->diffForHumans() }}</div>
+											</div>
+										</a>
+									@endforeach
+								</div>
+							</div>
+						</li>
 						<li class="dropdown">
 							<a href="#" class="nav-link nav-link-lg" id="themeToggle" title="Tema">
 								<i class="fas fa-moon"></i>

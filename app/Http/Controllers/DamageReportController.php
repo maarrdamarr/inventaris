@@ -7,6 +7,8 @@ use App\DamageReport;
 use App\DamageReportFile;
 use App\DamageReportComment;
 use App\Exports\DamageReportsExport;
+use App\Notifications\DamageReportCreated;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -118,6 +120,16 @@ class DamageReportController extends Controller
                 $p = $file->store('damage-evidence', 'public');
                 $report->files()->create(['path' => $p]);
             }
+        }
+
+        // Notify CS Sekolah (or any user with permission kelola kerusakan)
+        try {
+            $recipients = User::permission('kelola kerusakan')->get();
+            foreach ($recipients as $user) {
+                $user->notify(new DamageReportCreated($report));
+            }
+        } catch (\Throwable $e) {
+            // ignore notification errors
         }
 
         return redirect()->route('kerusakan.create')->with('success', 'Laporan kerusakan berhasil dikirim.');

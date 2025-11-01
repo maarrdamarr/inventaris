@@ -12,6 +12,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\BorrowingController;
 use App\Http\Controllers\DamageReportController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -88,4 +89,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/kerusakan-export/excel', [DamageReportController::class, 'exportExcel'])->name('kerusakan.export.excel')->middleware('permission:kelola kerusakan');
     Route::get('/kerusakan-export/pdf', [DamageReportController::class, 'exportPdf'])->name('kerusakan.export.pdf')->middleware('permission:kelola kerusakan');
+
+    // Notifications
+    Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])->name('notifications.readAll');
+    Route::get('/notifications/open/{id}', [NotificationController::class, 'open'])->name('notifications.open');
 });

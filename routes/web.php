@@ -79,6 +79,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/kerusakan', [DamageReportController::class, 'index'])->name('kerusakan.index')->middleware('permission:kelola kerusakan');
     Route::get('/kerusakan/baru', [DamageReportController::class, 'create'])->name('kerusakan.create')->middleware('permission:lapor kerusakan');
     Route::post('/kerusakan', [DamageReportController::class, 'store'])->name('kerusakan.store')->middleware('permission:lapor kerusakan');
+    Route::get('/kerusakan/{damage}', [DamageReportController::class, 'show'])->name('kerusakan.show');
     Route::post('/kerusakan/{damage}/start', [DamageReportController::class, 'start'])->name('kerusakan.start')->middleware('permission:kelola kerusakan');
     Route::post('/kerusakan/{damage}/resolve', [DamageReportController::class, 'resolve'])->name('kerusakan.resolve')->middleware('permission:kelola kerusakan');
+    Route::post('/kerusakan/{damage}/comment', [DamageReportController::class, 'comment'])->name('kerusakan.comment');
+    Route::post('/kerusakan/{damage}/evidence', [DamageReportController::class, 'addEvidence'])->name('kerusakan.evidence.add')->middleware('permission:kelola kerusakan');
+    Route::delete('/kerusakan/evidence/{file}', [DamageReportController::class, 'deleteEvidence'])->name('kerusakan.evidence.delete')->middleware('permission:kelola kerusakan');
+
+    Route::get('/kerusakan-export/excel', [DamageReportController::class, 'exportExcel'])->name('kerusakan.export.excel')->middleware('permission:kelola kerusakan');
+    Route::get('/kerusakan-export/pdf', [DamageReportController::class, 'exportPdf'])->name('kerusakan.export.pdf')->middleware('permission:kelola kerusakan');
 });

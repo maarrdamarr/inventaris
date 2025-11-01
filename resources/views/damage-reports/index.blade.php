@@ -33,7 +33,11 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4>Daftar Laporan</h4>
-                <a href="{{ route('kerusakan.create') }}" class="btn btn-primary">+ Lapor Baru</a>
+                <div class="btn-group">
+                    <a href="{{ route('kerusakan.export.excel', request()->query()) }}" class="btn btn-success"><i class="fas fa-file-excel"></i> Export Excel</a>
+                    <a href="{{ route('kerusakan.export.pdf', request()->query()) }}" class="btn btn-secondary"><i class="fas fa-file-pdf"></i> Export PDF</a>
+                    <a href="{{ route('kerusakan.create') }}" class="btn btn-primary">+ Lapor Baru</a>
+                </div>
             </div>
             <div class="card-body table-responsive">
                 <table class="table table-striped" id="damageTable" style="width:100%">
@@ -42,6 +46,7 @@
                             <th>Judul</th>
                             <th>Barang</th>
                             <th>Pelapor</th>
+                            <th>Bukti</th>
                             <th>Keparahan</th>
                             <th>Status</th>
                             <th>Dibuat</th>
@@ -51,9 +56,24 @@
                     <tbody>
                         @foreach($reports as $r)
                             <tr>
-                                <td>{{ $r->title }}</td>
+                                <td><a href="{{ route('kerusakan.show', $r) }}">{{ $r->title }}</a></td>
                                 <td>{{ $r->commodity->name ?? '-' }}</td>
                                 <td>{{ $r->reporter->name ?? '-' }}</td>
+                                <td>
+                                    @php $count = ($r->evidence_path ? 1 : 0) + $r->files->count(); @endphp
+                                    @if($count > 0)
+                                        <a href="{{ route('kerusakan.show', $r) }}" class="d-inline-flex align-items-center">
+                                            @if($r->evidence_path)
+                                                <img src="{{ asset('storage/'.$r->evidence_path) }}" alt="bukti" style="height:32px;width:32px;object-fit:cover;border-radius:4px;margin-right:6px;">
+                                            @elseif($r->files->first())
+                                                <img src="{{ asset('storage/'.$r->files->first()->path) }}" alt="bukti" style="height:32px;width:32px;object-fit:cover;border-radius:4px;margin-right:6px;">
+                                            @endif
+                                            <span>{{ $count }} file</span>
+                                        </a>
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                </td>
                                 <td><span class="badge badge-{{ ['rendah'=>'success','sedang'=>'warning','tinggi'=>'danger'][$r->severity] ?? 'secondary' }}">{{ ucfirst($r->severity) }}</span></td>
                                 <td><span class="badge badge-{{ ['dilaporkan'=>'secondary','diproses'=>'info','selesai'=>'success'][$r->status] ?? 'light' }}">{{ ucfirst($r->status) }}</span></td>
                                 <td>{{ $r->created_at?->format('Y-m-d') }}</td>
@@ -87,4 +107,3 @@
     </script>
     @endpush
 </x-layout>
-

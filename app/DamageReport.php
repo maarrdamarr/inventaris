@@ -17,5 +17,14 @@ class DamageReport extends Model
     {
         return $this->belongsTo(User::class, 'reporter_id');
     }
-}
 
+    public function files()
+    {
+        return $this->hasMany(DamageReportFile::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(DamageReportComment::class)->latest();
+    }
+}

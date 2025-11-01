@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-header"><h4>Form Laporan</h4></div>
             <div class="card-body">
-                <form action="{{ route('kerusakan.store') }}" method="POST">
+                <form action="{{ route('kerusakan.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -38,6 +38,20 @@
                         <label>Deskripsi</label>
                         <textarea name="description" class="form-control" rows="4" required placeholder="Jelaskan kerusakan secara singkat"></textarea>
                     </div>
+                    <div class="form-group">
+                        <label>Bukti Gambar (opsional)</label>
+                        <input type="file" name="evidence" accept="image/png,image/jpeg,image/jpg,image/webp" class="form-control-file">
+                        <small class="text-muted">Format: JPG/PNG/WebP, maks 2 MB.</small>
+                        <div class="mt-2" id="evidencePreview" style="display:none;">
+                            <img src="#" alt="Preview" class="img-thumbnail" style="max-height:200px;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Tambahan Bukti (boleh lebih dari satu)</label>
+                        <input type="file" name="evidences[]" accept="image/png,image/jpeg,image/jpg,image/webp" class="form-control-file" multiple>
+                        <div class="mt-2 d-flex flex-wrap" id="evidencesPreview"></div>
+                        <small class="text-muted d-block">Setiap file maks 4 MB.</small>
+                    </div>
                     <div class="text-right">
                         <button type="submit" class="btn btn-primary">Kirim Laporan</button>
                     </div>
@@ -52,8 +66,35 @@
             try {
                 new TomSelect('.select-commodity', { create: false, sortField: {field:'text',direction:'asc'} });
             } catch(e) {}
+
+            // Preview evidence image
+            $("input[name='evidence']").on('change', function(evt){
+                const file = this.files && this.files[0];
+                if (!file) { $('#evidencePreview').hide(); return; }
+                const reader = new FileReader();
+                reader.onload = function(e){
+                    $('#evidencePreview img').attr('src', e.target.result);
+                    $('#evidencePreview').show();
+                };
+                reader.readAsDataURL(file);
+            });
+
+            // Preview multiple evidences
+            $("input[name='evidences[]']").on('change', function(){
+                const container = $('#evidencesPreview');
+                container.empty();
+                const files = this.files || [];
+                Array.from(files).forEach(function(file){
+                    const reader = new FileReader();
+                    reader.onload = function(e){
+                        const img = $('<img class="img-thumbnail mr-2 mb-2" style="height:90px;width:90px;object-fit:cover;">');
+                        img.attr('src', e.target.result);
+                        container.append(img);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
         });
     </script>
     @endpush
 </x-layout>
-

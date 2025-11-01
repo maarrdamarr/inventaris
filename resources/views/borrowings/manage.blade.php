@@ -35,7 +35,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($borrowings as $b)
+                        @foreach($borrowings as $b)
                             <tr>
                                 <td>{{ $b->user->name ?? '-' }}</td>
                                 <td>{{ $b->commodity->name ?? '-' }}</td>
@@ -67,9 +67,7 @@
                                     @endcan
                                 </td>
                             </tr>
-                        @empty
-                            <tr><td colspan="7" class="text-center text-muted">Belum ada pengajuan.</td></tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -81,7 +79,10 @@
         $(function(){
             $('#manageBorrowTable').DataTable({
                 lengthMenu: [5, 10, 15, { label: 'All', value: -1 }],
-                pageLength: 10
+                pageLength: 10,
+                language: {
+                    emptyTable: 'Belum ada pengajuan.'
+                }
             });
         });
     </script>

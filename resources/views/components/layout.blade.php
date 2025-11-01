@@ -150,6 +150,9 @@
 					</div>
 
 					{{ $slot }}
+					<div class="text-center text-muted small py-3">
+						© {{ date('Y') }} DamarDbarangsekolahku
+					</div>
 				</section>
 			</div>
 		</div>
@@ -164,8 +167,14 @@
 	<script src="{{ url('assets/js/stisla.js') }}"></script>
 
 	<!-- JS Libraies -->
-	<script src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
-	<script src="https://cdn.datatables.net/2.0.6/js/dataTables.bootstrap4.js"></script>
+		<script src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
+		<script src="https://cdn.datatables.net/2.0.6/js/dataTables.bootstrap4.js"></script>
+		<script>
+			// Hindari popup alert DataTables, log ke console saja
+			if ($.fn && $.fn.dataTable && $.fn.dataTable.ext) {
+				$.fn.dataTable.ext.errMode = 'console';
+			}
+		</script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 	<!-- Template JS File -->

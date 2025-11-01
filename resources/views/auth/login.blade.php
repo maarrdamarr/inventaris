@@ -62,7 +62,7 @@
 								</button>
 							</div>
 						</form>
-						<center><br><p>Repost by <a href='https://stokcoding.com/' title='StokCoding.com' target='_blank'>StokCoding.com</a></p></center>
+						<center><br><p>© {{ date('Y') }} DamarDbarangsekolahku</p></center>
 					</div>
 				</div>
 				<div

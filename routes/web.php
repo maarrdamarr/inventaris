@@ -68,9 +68,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan', [ReportController::class, 'index'])->name('laporan.index');
     Route::get('/peminjaman', [BorrowingController::class, 'index'])->name('peminjaman.index');
     Route::post('/peminjaman', [BorrowingController::class, 'store'])->name('peminjaman.store');
-    Route::get('/peminjaman/kelola', [BorrowingController::class, 'manageIndex'])->name('peminjaman.manage');
+    Route::get('/peminjaman/kelola', [BorrowingController::class, 'manageIndex'])->name('peminjaman.manage')->middleware('permission:kelola peminjaman');
     Route::get('/peminjaman/riwayat', [BorrowingController::class, 'myIndex'])->name('peminjaman.my');
-    Route::post('/peminjaman/{borrowing}/approve', [BorrowingController::class, 'approve'])->name('peminjaman.approve');
-    Route::post('/peminjaman/{borrowing}/reject', [BorrowingController::class, 'reject'])->name('peminjaman.reject');
-    Route::post('/peminjaman/{borrowing}/returned', [BorrowingController::class, 'returned'])->name('peminjaman.returned');
+    Route::post('/peminjaman/{borrowing}/approve', [BorrowingController::class, 'approve'])->name('peminjaman.approve')->middleware('permission:kelola peminjaman');
+    Route::post('/peminjaman/{borrowing}/reject', [BorrowingController::class, 'reject'])->name('peminjaman.reject')->middleware('permission:kelola peminjaman');
+    Route::post('/peminjaman/{borrowing}/returned', [BorrowingController::class, 'returned'])->name('peminjaman.returned')->middleware('permission:kelola peminjaman');
 });

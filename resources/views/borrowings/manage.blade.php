@@ -44,23 +44,27 @@
                                 <td>{{ $b->created_at?->format('Y-m-d') }}</td>
                                 <td>{{ $b->due_at }}</td>
                                 <td class="d-flex">
-                                    @if($b->status==='pending')
-                                        <form method="POST" action="{{ route('peminjaman.approve', $b) }}" class="mr-1">
-                                            @csrf
-                                            <button class="btn btn-success btn-sm">Approve</button>
-                                        </form>
-                                        <form method="POST" action="{{ route('peminjaman.reject', $b) }}">
-                                            @csrf
-                                            <button class="btn btn-danger btn-sm">Reject</button>
-                                        </form>
-                                    @elseif($b->status==='approved')
-                                        <form method="POST" action="{{ route('peminjaman.returned', $b) }}">
-                                            @csrf
-                                            <button class="btn btn-info btn-sm">Tandai Dikembalikan</button>
-                                        </form>
+                                    @can('kelola peminjaman')
+                                        @if($b->status==='pending')
+                                            <form method="POST" action="{{ route('peminjaman.approve', $b) }}" class="mr-1">
+                                                @csrf
+                                                <button class="btn btn-success btn-sm">Approve</button>
+                                            </form>
+                                            <form method="POST" action="{{ route('peminjaman.reject', $b) }}">
+                                                @csrf
+                                                <button class="btn btn-danger btn-sm">Reject</button>
+                                            </form>
+                                        @elseif($b->status==='approved')
+                                            <form method="POST" action="{{ route('peminjaman.returned', $b) }}">
+                                                @csrf
+                                                <button class="btn btn-info btn-sm">Tandai Dikembalikan</button>
+                                            </form>
+                                        @else
+                                            <em class="text-muted">—</em>
+                                        @endif
                                     @else
                                         <em class="text-muted">—</em>
-                                    @endif
+                                    @endcan
                                 </td>
                             </tr>
                         @empty
@@ -83,4 +87,3 @@
     </script>
     @endpush
 </x-layout>
-

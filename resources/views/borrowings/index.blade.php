@@ -33,6 +33,13 @@
             </div>
         </div>
 
+        <div class="mb-3 d-flex">
+            <a href="{{ route('peminjaman.my') }}" class="btn btn-outline-primary mr-2"><i class="fas fa-list"></i> Riwayat Saya</a>
+            @can('kelola peminjaman')
+            <a href="{{ route('peminjaman.manage') }}" class="btn btn-outline-secondary"><i class="fas fa-tasks"></i> Kelola Pengajuan</a>
+            @endcan
+        </div>
+
         <x-filter resetFilterURL="{{ route('peminjaman.index') }}">
             <div class="form-row">
                 <div class="form-group col-md-4">

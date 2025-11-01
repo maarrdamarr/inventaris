@@ -64,6 +64,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('pengguna', UserController::class)->except('create', 'edit', 'show')
         ->parameter('pengguna', 'user');
+    Route::post('/pengguna/import-siswa', [UserController::class, 'importStudents'])->name('pengguna.import-siswa')->middleware('permission:tambah pengguna');
 
     Route::resource('peran-dan-hak-akses', RoleController::class)->parameter('peran-dan-hak-akses', 'role');
 

@@ -32,9 +32,13 @@
 					Tambah Data
 				</button>
 				@if($studentRole)
-				<button type="button" id="btnAddSiswa" class="btn btn-success" data-role-id="{{ $studentRole->id }}" data-toggle="modal" data-target="#user_create_modal">
+				<button type="button" id="btnAddSiswa" class="btn btn-success mr-2" data-role-id="{{ $studentRole->id }}" data-toggle="modal" data-target="#user_create_modal">
 					<i class="fas fa-user-graduate"></i>
 					Tambah Siswa
+				</button>
+				<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#user_import_students_modal">
+					<i class="fas fa-file-import"></i>
+					Import Siswa (CSV)
 				</button>
 				@endif
 				@endcan
@@ -120,6 +124,7 @@
 	@include('users.modal.create')
 	@include('users.modal.show')
 	@include('users.modal.edit')
+	@include('users.modal.import-students')
 	@endpush
 
 	@push('js')

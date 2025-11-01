@@ -12,9 +12,14 @@ class UserRoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::take(2)->get();
+        $admin = User::where('email', 'admin@mail.com')->first();
+        if ($admin) {
+            $admin->syncRoles(['Administrator']);
+        }
 
-        $user[0]->assignRole('Administrator');
-        $user[1]->assignRole('Staff TU (Tata Usaha)');
+        $staff = User::where('email', 'stafftu@mail.com')->first();
+        if ($staff) {
+            $staff->syncRoles(['Staff TU (Tata Usaha)']);
+        }
     }
 }

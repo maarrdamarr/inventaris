@@ -43,6 +43,8 @@ class PermissionSeeder extends Seeder
             ['name' => 'kelola kerusakan', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
         ]);
 
-        Permission::insert($mergedPermissions->toArray());
+        foreach ($mergedPermissions as $perm) {
+            \Spatie\Permission\Models\Permission::findOrCreate($perm['name'], $perm['guard_name']);
+        }
     }
 }

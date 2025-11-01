@@ -44,12 +44,15 @@ class BorrowingController extends Controller
         $locations = CommodityLocation::orderBy('name')->get(['id', 'name']);
         $materials = Commodity::select('material')->distinct()->orderBy('material')->pluck('material');
 
+        $pendingCount = Borrowing::where('status', 'pending')->count();
+
         return view('borrowings.index', [
             'title' => 'Peminjaman',
             'page_heading' => 'Peminjaman Barang',
             'items' => $items,
             'locations' => $locations,
             'materials' => $materials,
+            'pendingCount' => $pendingCount,
         ]);
     }
 

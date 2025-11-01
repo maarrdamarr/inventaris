@@ -21,7 +21,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($borrowings as $b)
+                        @foreach($borrowings as $b)
                             <tr>
                                 <td>{{ $b->commodity->name ?? '-' }}</td>
                                 <td>{{ $b->quantity }}</td>
@@ -31,9 +31,7 @@
                                 <td>{{ $b->due_at }}</td>
                                 <td>{{ $b->returned_at }}</td>
                             </tr>
-                        @empty
-                            <tr><td colspan="7" class="text-center text-muted">Belum ada riwayat.</td></tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -45,10 +43,12 @@
         $(function(){
             $('#myBorrowTable').DataTable({
                 lengthMenu: [5, 10, 15, { label: 'All', value: -1 }],
-                pageLength: 10
+                pageLength: 10,
+                language: {
+                    emptyTable: 'Belum ada riwayat.'
+                }
             });
         });
     </script>
     @endpush
 </x-layout>
-

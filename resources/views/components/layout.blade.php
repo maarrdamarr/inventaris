@@ -102,7 +102,15 @@
 						</li>
 						@endcan
 						<li class="nav-item dropdown{{ request()->routeIs('peminjaman.index') ? ' active' : '' }}">
-							<a href="{{ route('peminjaman.index') }}" class="nav-link"><i class="fas fa-hand-holding"></i> <span>Peminjaman</span></a>
+							<a href="{{ route('peminjaman.index') }}" class="nav-link">
+								<i class="fas fa-hand-holding"></i> <span>Peminjaman</span>
+								@can('kelola peminjaman')
+									@php $__pendingBorrowings = \App\Borrowing::where('status','pending')->count(); @endphp
+									@if($__pendingBorrowings > 0)
+										<span class="badge badge-danger ml-2">{{ $__pendingBorrowings }}</span>
+									@endif
+								@endcan
+							</a>
 						</li>
 						<li class="nav-item dropdown{{ request()->routeIs('laporan.index') ? ' active' : '' }}">
 							<a href="{{ route('laporan.index') }}" class="nav-link"><i class="fas fa-file-alt"></i> <span>Laporan</span></a>

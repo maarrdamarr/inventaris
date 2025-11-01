@@ -36,7 +36,12 @@
         <div class="mb-3 d-flex">
             <a href="{{ route('peminjaman.my') }}" class="btn btn-outline-primary mr-2"><i class="fas fa-list"></i> Riwayat Saya</a>
             @can('kelola peminjaman')
-            <a href="{{ route('peminjaman.manage') }}" class="btn btn-outline-secondary"><i class="fas fa-tasks"></i> Kelola Pengajuan</a>
+            <a href="{{ route('peminjaman.manage') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-tasks"></i> Kelola Pengajuan
+                @if(isset($pendingCount))
+                    <span class="badge badge-danger ml-1">{{ $pendingCount }}</span>
+                @endif
+            </a>
             @endcan
         </div>
 

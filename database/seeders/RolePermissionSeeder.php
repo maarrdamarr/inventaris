@@ -19,16 +19,27 @@ class RolePermissionSeeder extends Seeder
             return in_array($permission->name, [
                 'lihat pengguna', 'tambah pengguna', 'ubah pengguna', 'hapus pengguna',
                 'lihat peran dan hak akses', 'tambah peran dan hak akses', 'ubah peran dan hak akses', 'hapus peran dan hak akses',
-                'kelola peminjaman',
+                'kelola peminjaman', 'kelola kerusakan',
             ]);
         });
 
-        $roles = Role::all();
+        $csPermissions = Permission::whereIn('name', [
+            'kelola kerusakan',
+            'lihat barang',
+        ])->get();
 
-        // administrator
-        $roles[0]->syncPermissions($administratorPermissions);
+        $studentPermissions = Permission::whereIn('name', [
+            'lapor kerusakan',
+        ])->get();
 
-        // staff
-        $roles[1]->syncPermissions($staffPermissions);
+        $adminRole = Role::where('name', 'Administrator')->first();
+        $staffRole = Role::where('name', 'Staff TU (Tata Usaha)')->first();
+        $csRole = Role::where('name', 'CS Sekolah')->first();
+        $studentRole = Role::where('name', 'Siswa')->first();
+
+        if ($adminRole) $adminRole->syncPermissions($administratorPermissions);
+        if ($staffRole) $staffRole->syncPermissions($staffPermissions);
+        if ($csRole) $csRole->syncPermissions($csPermissions);
+        if ($studentRole) $studentRole->syncPermissions($studentPermissions);
     }
 }

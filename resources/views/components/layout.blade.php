@@ -38,8 +38,18 @@
 						<li class="dropdown">
 							<a href="#" class="nav-link nav-link-lg" id="themeToggle" title="Tema">
 								<i class="fas fa-moon"></i>
-							</a>
-						</li>
+                        </a>
+                    </li>
+                    @can('lapor kerusakan')
+                    <li class="nav-item dropdown{{ request()->routeIs('kerusakan.create') ? ' active' : '' }}">
+                        <a href="{{ route('kerusakan.create') }}" class="nav-link"><i class="fas fa-triangle-exclamation"></i> <span>Lapor Kerusakan</span></a>
+                    </li>
+                    @endcan
+                    @can('kelola kerusakan')
+                    <li class="nav-item dropdown{{ request()->routeIs('kerusakan.index') ? ' active' : '' }}">
+                        <a href="{{ route('kerusakan.index') }}" class="nav-link"><i class="fas fa-tools"></i> <span>Kelola Kerusakan</span></a>
+                    </li>
+                    @endcan
 						<li class="dropdown">
 							<a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
 								<img alt="image" src="../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1" />
@@ -132,7 +142,7 @@
 								<span>Peran & Hak Akses</span></a>
 						</li>
 						@endcan
-						<li class="nav-item dropdown{{ request()->routeIs('laporan.index') ? ' active' : '' }}"> <a href="{{ route('laporan.index') }}" class="nav-link"><i class="fas fa-file-alt"></i> <span>Laporan</span></a> </li
+                    
 					</ul>
 
 					<div class="mt-4 mb-4 p-3 hide-sidebar-mini">

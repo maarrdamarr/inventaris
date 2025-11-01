@@ -39,6 +39,8 @@ class PermissionSeeder extends Seeder
             ['name' => 'ubah peran dan hak akses', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'hapus peran dan hak akses', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'kelola peminjaman', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'lapor kerusakan', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'kelola kerusakan', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
         ]);
 
         Permission::insert($mergedPermissions->toArray());

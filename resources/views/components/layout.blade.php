@@ -160,8 +160,24 @@
 								@endcan
 							</a>
 						</li>
-						<li class="nav-item dropdown{{ request()->routeIs('laporan.index') ? ' active' : '' }}">
-							<a href="{{ route('laporan.index') }}" class="nav-link"><i class="fas fa-file-alt"></i> <span>Laporan</span></a>
+                    <li class="nav-item dropdown{{ request()->routeIs('laporan.index') ? ' active' : '' }}">
+                        <a href="{{ route('laporan.index') }}" class="nav-link"><i class="fas fa-file-alt"></i> <span>Laporan</span></a>
+                    </li>
+
+						<li class="menu-header">Keuangan</li>
+						<li class="nav-item dropdown{{ request()->routeIs('keuangan.index') ? ' active' : '' }}">
+							<a href="{{ route('keuangan.index') }}" class="nav-link"><i class="fas fa-wallet"></i> <span>Keuangan</span></a>
+						</li>
+						@role('Administrator|Staff TU (Tata Usaha)')
+						<li class="nav-item dropdown{{ request()->routeIs('keuangan.pembelian') ? ' active' : '' }}">
+							<a href="{{ route('keuangan.pembelian') }}" class="nav-link"><i class="fas fa-cart-shopping"></i> <span>Pembelian</span></a>
+						</li>
+						<li class="nav-item dropdown{{ request()->routeIs('keuangan.denda') ? ' active' : '' }}">
+							<a href="{{ route('keuangan.denda') }}" class="nav-link"><i class="fas fa-file-invoice-dollar"></i> <span>Denda</span></a>
+						</li>
+						@endrole
+						<li class="nav-item dropdown{{ request()->routeIs('keuangan.bayar-denda') ? ' active' : '' }}">
+							<a href="{{ route('keuangan.bayar-denda') }}" class="nav-link"><i class="fas fa-money-bill-wave"></i> <span>Bayar Denda</span></a>
 						</li>
 						<li class="menu-header">Pengaturan</li>
 						@can('mengatur profile')
@@ -322,6 +338,18 @@
 	@include('utilities.toast')
 
 	<style>
+		/* Theme override: Sky Blue */
+		:root { --sky-500:#3b82f6; --sky-600:#2563eb; --sky-400:#60a5fa; }
+		.text-primary { color: var(--sky-500) !important; }
+		.bg-primary { background-color: var(--sky-500) !important; }
+		.border-primary { border-color: var(--sky-500) !important; }
+		.btn-primary { background-color: var(--sky-500) !important; border-color: var(--sky-500) !important; }
+		.btn-primary:hover, .btn-primary:focus { background-color: var(--sky-600) !important; border-color: var(--sky-600) !important; }
+		.btn-outline-primary { color: var(--sky-500) !important; border-color: var(--sky-500) !important; }
+		.btn-outline-primary:hover { background-color: var(--sky-500) !important; color: #fff !important; }
+		.badge-primary { background-color: var(--sky-500) !important; }
+		.progress-bar.bg-primary { background-color: var(--sky-500) !important; }
+
 		/* Dark mode overrides */
 		body.dark-mode { background-color: #0f172a; color: #e2e8f0; }
 		body.dark-mode a { color: #93c5fd; }

@@ -135,7 +135,7 @@
 		.input-icon .input-group-text { background: #fff; border-right: 0; }
 		.input-icon .form-control { border-left: 0; }
 		.input-group-lg .form-control, .input-group-lg .input-group-text { border-radius: 12px; }
-		.btn-gradient { background: linear-gradient(135deg, #6777ef 0%, #5865f2 100%); border: none; color: #fff; padding: .65rem 1.25rem; border-radius: 10px; }
+		.btn-gradient { background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%); border: none; color: #fff; padding: .65rem 1.25rem; border-radius: 10px; }
 		.btn-gradient:hover { filter: brightness(1.05); color: #fff; }
 	</style>
 

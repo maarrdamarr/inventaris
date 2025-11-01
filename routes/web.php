@@ -14,6 +14,7 @@ use App\Http\Controllers\DamageReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AdminUtilityController;
+use App\Http\Controllers\FinanceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -101,4 +102,16 @@ Route::middleware('auth')->group(function () {
 
     // Admin utilities
     Route::post('/admin/storage-link', [AdminUtilityController::class, 'storageLink'])->name('admin.storage-link');
+
+    // Keuangan
+    Route::get('/keuangan', [FinanceController::class, 'index'])->name('keuangan.index');
+    Route::get('/keuangan/pembelian', [FinanceController::class, 'purchases'])->name('keuangan.pembelian');
+    Route::get('/keuangan/denda', [FinanceController::class, 'fines'])->name('keuangan.denda');
+    Route::get('/keuangan/bayar-denda', [FinanceController::class, 'payFine'])->name('keuangan.bayar-denda');
+    Route::get('/keuangan/transaksi', function(){ return view('finance.transactions', ['title'=>'Transaksi','page_heading'=>'Transaksi Keuangan']); })->name('keuangan.transaksi');
+    Route::post('/keuangan/denda/{damage}/submit', [FinanceController::class, 'submitFineProof'])->name('keuangan.denda.submit');
+    Route::post('/keuangan/denda/{damage}/approve', [FinanceController::class, 'approveFine'])->name('keuangan.denda.approve');
+    Route::post('/keuangan/denda/{damage}/set', [FinanceController::class, 'setFine'])->name('keuangan.denda.set');
+    Route::post('/keuangan/denda/{damage}/check-cs', [FinanceController::class, 'csCheck'])->name('keuangan.denda.check');
+    Route::post('/keuangan/denda/{damage}/message', [FinanceController::class, 'sendMessage'])->name('keuangan.denda.message');
 });

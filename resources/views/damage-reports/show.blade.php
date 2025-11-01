@@ -32,6 +32,26 @@
                         @if(in_array($report->status,['dilaporkan','diproses']))
                             <form method="POST" action="{{ route('kerusakan.resolve', $report) }}" class="d-inline">@csrf<button class="btn btn-success">Selesai</button></form>
                         @endif
+                        <hr>
+                        <form method="POST" action="{{ route('keuangan.denda.set', $report) }}" class="form-inline">
+                            @csrf
+                            <label class="mr-2 mb-0">Set Denda:</label>
+                            <input type="number" name="fine_amount" class="form-control mr-1" placeholder="Nominal" value="{{ $report->fine_amount }}" min="0" style="max-width:160px;">
+                            <select name="payment_method" class="form-control mr-1">
+                                @php $pm = $report->payment_method; @endphp
+                                <option value="">Metode</option>
+                                @foreach(['qris'=>'QRIS','tunai'=>'Tunai','transfer_bca'=>'Transfer BCA','transfer_bri'=>'Transfer BRI','gopay'=>'GoPay','ovo'=>'OVO','dana'=>'DANA'] as $k=>$v)
+                                    <option value="{{ $k }}" {{ $pm===$k?'selected':'' }}>{{ $v }}</option>
+                                @endforeach
+                            </select>
+                            <select name="payment_type" class="form-control mr-1">
+                                @php $pt = $report->payment_type; @endphp
+                                <option value="cash" {{ $pt==='cash'?'selected':'' }}>Cash</option>
+                                <option value="installment" {{ $pt==='installment'?'selected':'' }}>Cicilan</option>
+                            </select>
+                            <input type="number" name="installment_total" class="form-control mr-1" placeholder="Cicilan" value="{{ $report->installment_total }}" min="1" style="max-width:120px;">
+                            <button class="btn btn-primary">Simpan</button>
+                        </form>
                     </div>
                 </div>
                 @endcan

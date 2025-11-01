@@ -29,5 +29,12 @@ class NotificationController extends Controller
         }
         return back();
     }
-}
 
+    public function poll(Request $request)
+    {
+        $user = $request->user();
+        return response()->json([
+            'count' => $user->unreadNotifications()->count(),
+        ]);
+    }
+}

@@ -93,4 +93,5 @@ Route::middleware('auth')->group(function () {
     // Notifications
     Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])->name('notifications.readAll');
     Route::get('/notifications/open/{id}', [NotificationController::class, 'open'])->name('notifications.open');
+    Route::get('/notifications/poll', [NotificationController::class, 'poll'])->name('notifications.poll');
 });

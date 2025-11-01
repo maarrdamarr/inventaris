@@ -259,6 +259,23 @@
             });
           })();
 
+          // Poll unread notifications count periodically
+          setInterval(function(){
+            $.getJSON("{{ route('notifications.poll') }}").done(function(res){
+              if (!res) return;
+              var badge = $('.notification-toggle .navbar-badge');
+              if (res.count > 0) {
+                if (badge.length === 0) {
+                  $('.notification-toggle').append('<span class="badge badge-danger navbar-badge"></span>');
+                  badge = $('.notification-toggle .navbar-badge');
+                }
+                badge.text(Math.min(res.count, 99));
+              } else {
+                badge.remove();
+              }
+            });
+          }, 30000);
+
           $(".delete-button").click(function (e) {
             e.preventDefault();
             Swal.fire({
@@ -298,6 +315,8 @@
         });
       });
 	</script>
+
+	@include('utilities.toast')
 
 	<style>
 		/* Dark mode overrides */

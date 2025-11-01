@@ -138,6 +138,8 @@
 		.btn-gradient { background: linear-gradient(135deg, #6777ef 0%, #5865f2 100%); border: none; color: #fff; padding: .65rem 1.25rem; border-radius: 10px; }
 		.btn-gradient:hover { filter: brightness(1.05); color: #fff; }
 	</style>
+
+	@include('utilities.toast')
 </body>
 
 </html>

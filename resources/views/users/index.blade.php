@@ -26,10 +26,17 @@
 			@include('utilities.alert')
 			<div class="d-flex justify-content-end mb-3">
 				@can('tambah pengguna')
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#user_create_modal">
+				@php $studentRole = $roles->firstWhere('name','Siswa'); @endphp
+				<button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#user_create_modal">
 					<i class="fas fa-fw fa-plus"></i>
 					Tambah Data
 				</button>
+				@if($studentRole)
+				<button type="button" id="btnAddSiswa" class="btn btn-success" data-role-id="{{ $studentRole->id }}" data-toggle="modal" data-target="#user_create_modal">
+					<i class="fas fa-user-graduate"></i>
+					Tambah Siswa
+				</button>
+				@endif
 				@endcan
 			</div>
 

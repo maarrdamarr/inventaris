@@ -1,6 +1,6 @@
 <script>
 	$(document).ready(function () {
-		new TomSelect("#user_create_modal form #role_id");
+		const createRoleSelect = new TomSelect("#user_create_modal form #role_id");
 		const userRoleInput = new TomSelect("#user_edit_modal form #role_id");
 
 		$(".show-modal").click(function () {
@@ -60,6 +60,14 @@
 					console.log(err);
 				},
 			});
+		});
+
+		// Quick add siswa: preselect role to 'Siswa'
+		$("#btnAddSiswa").on('click', function(){
+			const rid = $(this).data('role-id');
+			if (rid) {
+				createRoleSelect.setValue(rid);
+			}
 		});
 	});
 </script>

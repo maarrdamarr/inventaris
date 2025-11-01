@@ -18,9 +18,9 @@
 <body>
     <div id="app" class="login-page">
         <div class="bg-slides">
-            <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80');"></div>
-            <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80');"></div>
-            <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=1600&q=80');"></div>
+            <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=1600&q=80');"></div>
+            <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1600&q=80');"></div>
+            <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1559757180-47f12f4b3c16?auto=format&fit=crop&w=1600&q=80');"></div>
             <div class="bg-overlay"></div>
             <div class="greeting-wrap">
                 <h1 id="greetings" class="greeting-title">Selamat Datang!</h1>

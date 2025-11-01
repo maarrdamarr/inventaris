@@ -34,12 +34,17 @@
 						</li>
 					</ul>
 				</form>
-				<ul class="navbar-nav navbar-right">
-					<li class="dropdown">
-						<a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-							<img alt="image" src="../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1" />
-							<div class="d-sm-none d-lg-inline-block">Halo, {{ auth()->user()->name }}</div>
-						</a>
+					<ul class="navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="nav-link nav-link-lg" id="themeToggle" title="Tema">
+								<i class="fas fa-moon"></i>
+							</a>
+						</li>
+						<li class="dropdown">
+							<a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+								<img alt="image" src="../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1" />
+								<div class="d-sm-none d-lg-inline-block">Halo, {{ auth()->user()->name }}</div>
+							</a>
 						<div class="dropdown-menu dropdown-menu-right">
 							<div class="dropdown-title">Akun sejak: {{ auth()->user()->diffForHumanDate(auth()->user()->created_at) }}
 							</div>
@@ -69,10 +74,10 @@
 			<div class="main-sidebar">
 				<aside id="sidebar-wrapper">
 					<div class="sidebar-brand">
-						<a href="{{ route('home') }}">{{ config('app.name') }}</a>
+						<a href="{{ route('home') }}">DamarDproject</a>
 					</div>
 					<div class="sidebar-brand sidebar-brand-sm">
-						<a href="{{ route('home') }}">{{ substr(config('app.name'), 0, 2) }}</a>
+						<a href="{{ route('home') }}">DP</a>
 					</div>
 					<ul class="sidebar-menu">
 						<li class="menu-header">Dashboard</li>
@@ -184,19 +189,41 @@
 	<!-- Page Specific JS File -->
 	<script src="{{ url('assets/js/page/index-0.js') }}"></script>
 
-	<script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/js/tom-select.complete.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/js/tom-select.complete.min.js"></script>
 
-	<script src="{{ asset('js/scripts.js') }}"></script>
+		<script src="{{ asset('js/scripts.js') }}"></script>
 
-	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+		<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-	<script>
-		$(document).ready(function () {
-        $(".delete-button").click(function (e) {
-          e.preventDefault();
-          Swal.fire({
-            title: "Hapus?",
-            text: "Data tidak akan bisa dikembalikan!",
+		<script>
+			$(document).ready(function () {
+          // Dark mode toggle
+          (function(){
+            function updateThemeIcon(){
+              var icon = document.querySelector('#themeToggle i');
+              if(!icon) return;
+              icon.className = document.body.classList.contains('dark-mode') ? 'fas fa-sun' : 'fas fa-moon';
+            }
+            try {
+              var saved = localStorage.getItem('theme');
+              if (saved === 'dark') document.body.classList.add('dark-mode');
+            } catch(e) {}
+            updateThemeIcon();
+            $('#themeToggle').on('click', function(e){
+              e.preventDefault();
+              document.body.classList.toggle('dark-mode');
+              try {
+                localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+              } catch(e) {}
+              updateThemeIcon();
+            });
+          })();
+
+          $(".delete-button").click(function (e) {
+            e.preventDefault();
+            Swal.fire({
+              title: "Hapus?",
+              text: "Data tidak akan bisa dikembalikan!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -231,6 +258,29 @@
         });
       });
 	</script>
+
+	<style>
+		/* Dark mode overrides */
+		body.dark-mode { background-color: #0f172a; color: #e2e8f0; }
+		body.dark-mode a { color: #93c5fd; }
+		body.dark-mode .navbar-bg, body.dark-mode .main-navbar { background-color: #111827; }
+		body.dark-mode .main-sidebar, body.dark-mode #sidebar-wrapper { background-color: #0b1220; }
+		body.dark-mode .sidebar-brand a, body.dark-mode .sidebar-menu li a { color: #cbd5e1; }
+		body.dark-mode .sidebar-menu li.active > a { color: #ffffff; }
+		body.dark-mode .card { background-color: #111827; color: #e5e7eb; border-color: #1f2937; }
+		body.dark-mode .card .card-header { border-color: #1f2937; }
+		body.dark-mode .table { color: #e5e7eb; }
+		body.dark-mode .table thead th { color: #f3f4f6; border-color: #1f2937; }
+		body.dark-mode .table td, body.dark-mode .table th { border-color: #1f2937; }
+		body.dark-mode .form-control, body.dark-mode .custom-select, body.dark-mode .input-group-text {
+			background-color: #0f172a; border-color: #334155; color: #e2e8f0;
+		}
+		body.dark-mode .dropdown-menu { background-color: #0f172a; color: #e2e8f0; border-color: #1f2937; }
+		body.dark-mode .dropdown-item { color: #e2e8f0; }
+		body.dark-mode .dropdown-item:hover { background-color: #1f2937; color: #fff; }
+		body.dark-mode .btn-outline-secondary { color:#cbd5e1; border-color:#475569; }
+		body.dark-mode .btn-outline-secondary:hover { background:#334155; color:#fff; border-color:#334155; }
+	</style>
 	@stack('modal')
 	@stack('js')
 </body>

@@ -35,7 +35,7 @@ class DamageReportController extends Controller
                 });
             });
 
-        $reports = (clone $base)->latest()->get();
+        $reports = (clone $base)->latest()->limit(100)->get();
 
         return view('damage-reports.index', [
             'title' => 'Laporan Kerusakan',
@@ -76,6 +76,19 @@ class DamageReportController extends Controller
         return $pdf->download('laporan-kerusakan.pdf');
     }
 
+    // List view that can be accessed by any authenticated user (read-only)
+    public function list()
+    {
+        $reports = DamageReport::with(['commodity','reporter','files'])
+            ->latest()->take(50)->get();
+
+        return view('damage-reports.list', [
+            'title' => 'Daftar Kerusakan',
+            'page_heading' => 'Daftar Laporan Kerusakan',
+            'reports' => $reports,
+        ]);
+    }
+
     // Siswa/Umum: create report
     public function create()
     {
@@ -101,6 +114,7 @@ class DamageReportController extends Controller
         $path = null;
         if ($request->hasFile('evidence')) {
             $path = $request->file('evidence')->store('damage-evidence', 'public');
+            $this->makeThumbnail($path);
         }
 
         $report = DamageReport::create([
@@ -118,6 +132,7 @@ class DamageReportController extends Controller
             foreach ($request->file('evidences') as $file) {
                 if (!$file) continue;
                 $p = $file->store('damage-evidence', 'public');
+                $this->makeThumbnail($p);
                 $report->files()->create(['path' => $p]);
             }
         }
@@ -133,6 +148,51 @@ class DamageReportController extends Controller
         }
 
         return redirect()->route('kerusakan.create')->with('success', 'Laporan kerusakan berhasil dikirim.');
+    }
+
+    private function makeThumbnail(string $relativePath, int $targetWidth = 600): void
+    {
+        try {
+            $disk = Storage::disk('public');
+            if (! $disk->exists($relativePath)) return;
+            $src = $disk->path($relativePath);
+            $info = pathinfo($src);
+            $thumbDir = $disk->path('damage-evidence/thumbs');
+            if (! is_dir($thumbDir)) @mkdir($thumbDir, 0755, true);
+            $thumbPath = $thumbDir . DIRECTORY_SEPARATOR . $info['basename'];
+
+            // Use GD to resize
+            [$width, $height, $type] = getimagesize($src);
+            if (! $width || ! $height) return;
+            $ratio = $height / $width;
+            $newWidth = min($targetWidth, $width);
+            $newHeight = (int) round($newWidth * $ratio);
+            $dst = imagecreatetruecolor($newWidth, $newHeight);
+
+            switch ($type) {
+                case IMAGETYPE_JPEG:
+                    $img = imagecreatefromjpeg($src); break;
+                case IMAGETYPE_PNG:
+                    $img = imagecreatefrompng($src);
+                    imagealphablending($dst, false); imagesavealpha($dst, true);
+                    break;
+                case IMAGETYPE_WEBP:
+                    if (function_exists('imagecreatefromwebp')) {
+                        $img = imagecreatefromwebp($src);
+                    } else { return; }
+                    break;
+                default:
+                    return; // unsupported
+            }
+            if (! $img) return;
+            imagecopyresampled($dst, $img, 0,0,0,0, $newWidth,$newHeight, $width,$height);
+
+            // Save as JPEG to reduce size
+            imagejpeg($dst, $thumbPath, 80);
+            imagedestroy($img); imagedestroy($dst);
+        } catch (\Throwable $e) {
+            // silently ignore thumbnail errors
+        }
     }
 
     public function show(DamageReport $damage)

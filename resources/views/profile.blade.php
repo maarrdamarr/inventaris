@@ -68,6 +68,22 @@
 						</div>
 						<button type="submit" class="btn btn-success">Ubah</button>
 					</form>
+
+					@php $isAdmin = method_exists(auth()->user(),'hasRole') && auth()->user()->hasRole('Administrator'); @endphp
+					@if($isAdmin)
+					<hr>
+					<div class="card mt-3">
+						<div class="card-header"><h4>Utilitas Admin</h4></div>
+						<div class="card-body">
+							<p class="text-muted">Jika gambar bukti tidak tampil, buat tautan storage → public.</p>
+							<form method="POST" action="{{ route('admin.storage-link') }}">
+								@csrf
+								<button class="btn btn-primary"><i class="fas fa-link"></i> Buat Symlink Storage</button>
+							</form>
+							<small class="text-muted d-block mt-2">Setelah berhasil, URL gambar akan tersedia di <code>/storage</code>.</small>
+						</div>
+					</div>
+					@endif
 				</div>
 			</div>
 		</div>

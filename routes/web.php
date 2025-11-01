@@ -13,6 +13,7 @@ use App\Http\Controllers\BorrowingController;
 use App\Http\Controllers\DamageReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\AdminUtilityController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -71,28 +72,33 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan', [ReportController::class, 'index'])->name('laporan.index');
     Route::get('/peminjaman', [BorrowingController::class, 'index'])->name('peminjaman.index');
     Route::post('/peminjaman', [BorrowingController::class, 'store'])->name('peminjaman.store');
-    Route::get('/peminjaman/kelola', [BorrowingController::class, 'manageIndex'])->name('peminjaman.manage')->middleware('permission:kelola peminjaman');
+    Route::get('/peminjaman/kelola', [BorrowingController::class, 'manageIndex'])->name('peminjaman.manage');
     Route::get('/peminjaman/riwayat', [BorrowingController::class, 'myIndex'])->name('peminjaman.my');
-    Route::post('/peminjaman/{borrowing}/approve', [BorrowingController::class, 'approve'])->name('peminjaman.approve')->middleware('permission:kelola peminjaman');
-    Route::post('/peminjaman/{borrowing}/reject', [BorrowingController::class, 'reject'])->name('peminjaman.reject')->middleware('permission:kelola peminjaman');
-    Route::post('/peminjaman/{borrowing}/returned', [BorrowingController::class, 'returned'])->name('peminjaman.returned')->middleware('permission:kelola peminjaman');
+    Route::post('/peminjaman/{borrowing}/approve', [BorrowingController::class, 'approve'])->name('peminjaman.approve');
+    Route::post('/peminjaman/{borrowing}/reject', [BorrowingController::class, 'reject'])->name('peminjaman.reject');
+    Route::post('/peminjaman/{borrowing}/returned', [BorrowingController::class, 'returned'])->name('peminjaman.returned');
 
     // Kerusakan
-    Route::get('/kerusakan', [DamageReportController::class, 'index'])->name('kerusakan.index')->middleware('permission:kelola kerusakan');
-    Route::get('/kerusakan/baru', [DamageReportController::class, 'create'])->name('kerusakan.create')->middleware('permission:lapor kerusakan');
-    Route::post('/kerusakan', [DamageReportController::class, 'store'])->name('kerusakan.store')->middleware('permission:lapor kerusakan');
+    Route::get('/kerusakan', [DamageReportController::class, 'index'])->name('kerusakan.index');
+    Route::get('/kerusakan/baru', [DamageReportController::class, 'create'])->name('kerusakan.create');
+    Route::post('/kerusakan', [DamageReportController::class, 'store'])->name('kerusakan.store');
+    // note: daftar should be above the dynamic {damage} route to avoid 404
+    Route::get('/kerusakan/daftar', [DamageReportController::class, 'list'])->name('kerusakan.list');
     Route::get('/kerusakan/{damage}', [DamageReportController::class, 'show'])->name('kerusakan.show');
-    Route::post('/kerusakan/{damage}/start', [DamageReportController::class, 'start'])->name('kerusakan.start')->middleware('permission:kelola kerusakan');
-    Route::post('/kerusakan/{damage}/resolve', [DamageReportController::class, 'resolve'])->name('kerusakan.resolve')->middleware('permission:kelola kerusakan');
+    Route::post('/kerusakan/{damage}/start', [DamageReportController::class, 'start'])->name('kerusakan.start');
+    Route::post('/kerusakan/{damage}/resolve', [DamageReportController::class, 'resolve'])->name('kerusakan.resolve');
     Route::post('/kerusakan/{damage}/comment', [DamageReportController::class, 'comment'])->name('kerusakan.comment');
-    Route::post('/kerusakan/{damage}/evidence', [DamageReportController::class, 'addEvidence'])->name('kerusakan.evidence.add')->middleware('permission:kelola kerusakan');
-    Route::delete('/kerusakan/evidence/{file}', [DamageReportController::class, 'deleteEvidence'])->name('kerusakan.evidence.delete')->middleware('permission:kelola kerusakan');
+    Route::post('/kerusakan/{damage}/evidence', [DamageReportController::class, 'addEvidence'])->name('kerusakan.evidence.add');
+    Route::delete('/kerusakan/evidence/{file}', [DamageReportController::class, 'deleteEvidence'])->name('kerusakan.evidence.delete');
 
-    Route::get('/kerusakan-export/excel', [DamageReportController::class, 'exportExcel'])->name('kerusakan.export.excel')->middleware('permission:kelola kerusakan');
-    Route::get('/kerusakan-export/pdf', [DamageReportController::class, 'exportPdf'])->name('kerusakan.export.pdf')->middleware('permission:kelola kerusakan');
+    Route::get('/kerusakan-export/excel', [DamageReportController::class, 'exportExcel'])->name('kerusakan.export.excel');
+    Route::get('/kerusakan-export/pdf', [DamageReportController::class, 'exportPdf'])->name('kerusakan.export.pdf');
 
     // Notifications
     Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])->name('notifications.readAll');
     Route::get('/notifications/open/{id}', [NotificationController::class, 'open'])->name('notifications.open');
     Route::get('/notifications/poll', [NotificationController::class, 'poll'])->name('notifications.poll');
+
+    // Admin utilities
+    Route::post('/admin/storage-link', [AdminUtilityController::class, 'storageLink'])->name('admin.storage-link');
 });

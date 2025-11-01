@@ -41,15 +41,15 @@
                     <div class="card-header"><h4>Bukti</h4></div>
                     <div class="card-body">
                         @if($report->evidence_path)
-                            <a href="{{ asset('storage/'.$report->evidence_path) }}" target="_blank">
-                                <img src="{{ asset('storage/'.$report->evidence_path) }}" class="img-fluid mb-2" alt="bukti utama">
+                            <a href="{{ Storage::url($report->evidence_path) }}" target="_blank">
+                                <img src="{{ Storage::url($report->evidence_path) }}" class="img-fluid mb-2" alt="bukti utama" onerror="this.onerror=null;this.src='https://via.placeholder.com/600x300?text=Tidak+ada+gambar';">
                             </a>
                         @endif
                         <div class="d-flex flex-wrap">
                             @foreach($report->files as $f)
                                 <div class="mr-2 mb-2 position-relative" style="display:inline-block;">
-                                    <a href="{{ asset('storage/'.$f->path) }}" target="_blank">
-                                        <img src="{{ asset('storage/'.$f->path) }}" style="height:90px;width:90px;object-fit:cover;border-radius:6px;" alt="bukti">
+                                    <a href="{{ Storage::url($f->path) }}" target="_blank">
+                                        <img src="{{ Storage::url($f->path) }}" style="height:90px;width:90px;object-fit:cover;border-radius:6px;" alt="bukti" onerror="this.onerror=null;this.src='https://via.placeholder.com/90?text=No+Img';">
                                     </a>
                                     @can('kelola kerusakan')
                                     <form method="POST" action="{{ route('kerusakan.evidence.delete', $f) }}" style="position:absolute;top:-6px;right:-6px;">

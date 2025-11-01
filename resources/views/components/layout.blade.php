@@ -70,6 +70,9 @@
 								<i class="fas fa-moon"></i>
                         </a>
                     </li>
+                    <li class="nav-item dropdown{{ request()->routeIs('kerusakan.list') ? ' active' : '' }}">
+                        <a href="{{ route('kerusakan.list') }}" class="nav-link"><i class="fas fa-exclamation-circle"></i> <span>Daftar Kerusakan</span></a>
+                    </li>
                     @can('lapor kerusakan')
                     <li class="nav-item dropdown{{ request()->routeIs('kerusakan.create') ? ' active' : '' }}">
                         <a href="{{ route('kerusakan.create') }}" class="nav-link"><i class="fas fa-triangle-exclamation"></i> <span>Lapor Kerusakan</span></a>

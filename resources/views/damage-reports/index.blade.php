@@ -62,11 +62,15 @@
                                 <td>
                                     @php $count = ($r->evidence_path ? 1 : 0) + $r->files->count(); @endphp
                                     @if($count > 0)
+                                        @php
+                                            $p = $r->evidence_path ?: optional($r->files->first())->path;
+                                            $src = null; $orig = null;
+                                            if ($p) { $src = Storage::url('damage-evidence/thumbs/'.basename($p)); $orig = Storage::url($p); }
+                                            $fallback='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=';
+                                        @endphp
                                         <a href="{{ route('kerusakan.show', $r) }}" class="d-inline-flex align-items-center">
-                                            @if($r->evidence_path)
-                                                <img src="{{ asset('storage/'.$r->evidence_path) }}" alt="bukti" style="height:32px;width:32px;object-fit:cover;border-radius:4px;margin-right:6px;">
-                                            @elseif($r->files->first())
-                                                <img src="{{ asset('storage/'.$r->files->first()->path) }}" alt="bukti" style="height:32px;width:32px;object-fit:cover;border-radius:4px;margin-right:6px;">
+                                            @if($src)
+                                                <img src="{{ $src }}" alt="bukti" style="height:32px;width:32px;object-fit:cover;border-radius:4px;margin-right:6px;" loading="lazy" onerror="this.onerror=null;this.src='{{ $orig ?? $fallback }}';">
                                             @endif
                                             <span>{{ $count }} file</span>
                                         </a>

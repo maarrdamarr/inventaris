@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\BorrowingController;
+use App\Http\Controllers\DamageReportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -73,4 +74,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/peminjaman/{borrowing}/approve', [BorrowingController::class, 'approve'])->name('peminjaman.approve')->middleware('permission:kelola peminjaman');
     Route::post('/peminjaman/{borrowing}/reject', [BorrowingController::class, 'reject'])->name('peminjaman.reject')->middleware('permission:kelola peminjaman');
     Route::post('/peminjaman/{borrowing}/returned', [BorrowingController::class, 'returned'])->name('peminjaman.returned')->middleware('permission:kelola peminjaman');
+
+    // Kerusakan
+    Route::get('/kerusakan', [DamageReportController::class, 'index'])->name('kerusakan.index')->middleware('permission:kelola kerusakan');
+    Route::get('/kerusakan/baru', [DamageReportController::class, 'create'])->name('kerusakan.create')->middleware('permission:lapor kerusakan');
+    Route::post('/kerusakan', [DamageReportController::class, 'store'])->name('kerusakan.store')->middleware('permission:lapor kerusakan');
+    Route::post('/kerusakan/{damage}/start', [DamageReportController::class, 'start'])->name('kerusakan.start')->middleware('permission:kelola kerusakan');
+    Route::post('/kerusakan/{damage}/resolve', [DamageReportController::class, 'resolve'])->name('kerusakan.resolve')->middleware('permission:kelola kerusakan');
 });
